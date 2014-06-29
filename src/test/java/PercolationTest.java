@@ -1,6 +1,8 @@
 import junit.framework.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class PercolationTest {
 
     private Percolation percolation;
@@ -19,7 +21,7 @@ public class PercolationTest {
         } catch (IllegalArgumentException iae) {
             Assert.assertTrue(true);
         }
-        percolation = new Percolation(4722);
+        percolation = new Percolation(472);
         try {
             percolation = new Percolation(46341);
             Assert.assertTrue(false);
@@ -44,6 +46,7 @@ public class PercolationTest {
         checkOpenning(2, 4);
         checkOpenning(4, 1);
         checkOpenning(4, 3);
+        checkOpenning(4, 4);
         checkOpenning(4, 4);
         checkOpenningFail(0, 1);
         checkOpenningFail(5, 1);
@@ -85,6 +88,27 @@ public class PercolationTest {
         percolation.open(3, 4);
         percolation.open(4, 4);
         Assert.assertTrue(percolation.isFull(4, 4));
+
+        percolation = new Percolation(5);
+        Assert.assertFalse(percolation.isFull(5, 5));
+        percolation.open(5, 5);
+        Assert.assertFalse(percolation.isFull(5, 5));
+        percolation.open(4, 5);
+        percolation.open(3, 5);
+        percolation.open(2, 5);
+        Assert.assertFalse(percolation.isFull(5, 5));
+        Assert.assertFalse(percolation.isFull(2, 5));
+        percolation.open(1, 5);
+        Assert.assertTrue(percolation.isFull(5, 5));
+        Assert.assertFalse(percolation.isFull(5, 4));
+
+        percolation = new Percolation(4);
+        try {
+            percolation.isFull(1, 5);
+            Assert.assertTrue(false);
+        } catch (IndexOutOfBoundsException ioobe) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
@@ -106,6 +130,26 @@ public class PercolationTest {
         Assert.assertFalse(percolation.percolates());
         percolation.open(3, 4);
         Assert.assertTrue(percolation.percolates());
+    }
+
+    @Test
+    public void testIsFullRandomly() throws IOException {
+        for (int i = 0; i < 10000; i++) {
+            testRandom("test1.txt", "test1.txt");
+        }
+        for (int i = 0; i < 10000; i++) {
+            testRandom("test2.txt", "test2-check.txt");
+        }
+    }
+
+    private void testRandom(String dataFileName, String controlFileName) throws IOException {
+        percolation = PercolationReader.read(dataFileName);
+        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix(controlFileName);
+        for (int i = 0; i < fullnessMatrix.length; i++) {
+            for (int j = 0; j < fullnessMatrix.length; j++) {
+                Assert.assertEquals(String.format("Wrong at index [%d, %d], expected %s.", i, j, fullnessMatrix[i][j]), fullnessMatrix[i][j], percolation.isFull(i + 1, j + 1));
+            }
+        }
     }
 
     private void checkOpenningFail(int i, int j) {
