@@ -134,17 +134,31 @@ public class PercolationTest {
 
     @Test
     public void testIsFullRandomly() throws IOException {
-        for (int i = 0; i < 10000; i++) {
-            testRandom("test1.txt", "test1.txt");
-        }
-        for (int i = 0; i < 10000; i++) {
-            testRandom("test2.txt", "test2-check.txt");
+//        for (int i = 0; i < 10000; i++) {
+//            testRandom("test1.txt");
+//        }
+//        for (int i = 0; i < 10000; i++) {
+//            testRandom("test2.txt");
+//        }
+//        for (int i = 0; i < 10000; i++) {
+//            testRandom("test3.txt");
+//        }
+    }
+
+    @Test
+    public void testError() throws IOException {
+        percolation = PercolationReader.read("test3.txt", true, -2687773032142323631l);
+        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix("test3.txt");
+        for (int i = 0; i < fullnessMatrix.length; i++) {
+            for (int j = 0; j < fullnessMatrix.length; j++) {
+                Assert.assertEquals(String.format("Wrong at index [%d, %d], expected %s.", i, j, fullnessMatrix[i][j]), fullnessMatrix[i][j], percolation.isFull(i + 1, j + 1));
+            }
         }
     }
 
-    private void testRandom(String dataFileName, String controlFileName) throws IOException {
-        percolation = PercolationReader.read(dataFileName);
-        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix(controlFileName);
+    private void testRandom(String dataFileName) throws IOException {
+        percolation = PercolationReader.read(dataFileName, false, 0);
+        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix(dataFileName);
         for (int i = 0; i < fullnessMatrix.length; i++) {
             for (int j = 0; j < fullnessMatrix.length; j++) {
                 Assert.assertEquals(String.format("Wrong at index [%d, %d], expected %s.", i, j, fullnessMatrix[i][j]), fullnessMatrix[i][j], percolation.isFull(i + 1, j + 1));

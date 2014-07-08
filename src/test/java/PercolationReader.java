@@ -12,7 +12,7 @@ public class PercolationReader {
 
     }
 
-    public static Percolation read(String name) throws IOException {
+    public static Percolation read(String name, boolean useCustomSeed, long seed) throws IOException {
         InputStream data = PercolationReader.class.getResourceAsStream(name);
         BufferedReader in = null;
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
@@ -25,7 +25,7 @@ public class PercolationReader {
                 String s = in.readLine();
                 char[] chars = s.toCharArray();
                 for (int i = 0; i < chars.length; i++) {
-                    if (chars[i] == '1') {
+                    if (chars[i] == '2' || chars[i] == '1') {
                         coordinates.add(new Coordinate(rowCounter + 1, i + 1));
                     }
                 }
@@ -37,8 +37,10 @@ public class PercolationReader {
             }
         }
         Percolation percolation = new Percolation(gridSize);
-        Random random = new Random();
-        long seed = random.nextLong();
+        if (!useCustomSeed) {
+            Random random = new Random();
+            seed = random.nextLong();
+        }
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<< Test is running with seed = " + seed);
         Collections.shuffle(coordinates, new Random(seed));
         for (Coordinate coordinate : coordinates) {
@@ -61,7 +63,7 @@ public class PercolationReader {
                 String s = in.readLine();
                 char[] chars = s.toCharArray();
                 for (int i = 0; i < chars.length; i++) {
-                    if (chars[i] == '1') {
+                    if (chars[i] == '2') {
                         fullnessMatrix[rowCounter][i] = true;
                     }
                 }
