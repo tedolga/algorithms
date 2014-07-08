@@ -21,7 +21,7 @@ public class PercolationTest {
         } catch (IllegalArgumentException iae) {
             Assert.assertTrue(true);
         }
-        percolation = new Percolation(472);
+        percolation = new Percolation(4720);
         try {
             percolation = new Percolation(46341);
             Assert.assertTrue(false);

@@ -6,7 +6,8 @@ public class Percolation {
 
     private boolean[][] cells;
     private int gridSize;
-    private WeightedQuickUnionUF weightedQuickUnionUF;
+    private WeightedQuickUnionUF unionUFPercolation;
+    private WeightedQuickUnionUF unionUFFullness;
 
     /**
      * Creates grid of nxn cells with all blocked sites. Size of grid should be in range [1, 46340].
@@ -62,7 +63,7 @@ public class Percolation {
      */
     public boolean isFull(final int i, final int j) {
         checkIndexes(i, j);
-        return weightedQuickUnionUF.connected(0, convertToWQUUAddress(i - 1, j - 1));
+        return unionUFFullness.connected(0, convertToWQUUAddress(i - 1, j - 1));
     }
 
     /**
@@ -72,7 +73,7 @@ public class Percolation {
      *         bottom row.
      */
     public boolean percolates() {
-        return weightedQuickUnionUF.connected(0, gridSize * gridSize + 1);
+        return unionUFPercolation.connected(0, gridSize * gridSize + 1);
     }
 
     private void connectWithNeighbors(final int i, final int j) {
@@ -86,10 +87,11 @@ public class Percolation {
     private void connectWithTopOrBottom(final int i, final int j) {
         int index = convertToWQUUAddress(i, j);
         if (i == 0) {
-            weightedQuickUnionUF.union(0, index);
+            unionUFPercolation.union(0, index);
+            unionUFFullness.union(0, index);
         }
         if (i == (gridSize - 1)) {
-            weightedQuickUnionUF.union(gridSize * gridSize + 1, index);
+            unionUFPercolation.union(gridSize * gridSize + 1, index);
         }
     }
 
@@ -97,7 +99,8 @@ public class Percolation {
         if (isInRange(i1 + 1) && isInRange(j1 + 1) && cells[i1][j1]) {
             int index1 = convertToWQUUAddress(i1, j1);
             int index2 = convertToWQUUAddress(i2, j2);
-            weightedQuickUnionUF.union(index1, index2);
+            unionUFPercolation.union(index1, index2);
+            unionUFFullness.union(index1,index2);
         }
     }
 
@@ -106,7 +109,8 @@ public class Percolation {
     }
 
     private void initiateQuickUnionUF(final int n) {
-        weightedQuickUnionUF = new WeightedQuickUnionUF(n * n + 2);
+        unionUFPercolation = new WeightedQuickUnionUF(n * n + 2);
+        unionUFFullness = new WeightedQuickUnionUF(n * n + 2);
     }
 
     private void checkIndexes(final int i, final int j) {
