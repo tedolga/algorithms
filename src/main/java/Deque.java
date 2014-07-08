@@ -27,11 +27,13 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> newFirst = new Node<Item>();
         newFirst.value = item;
         newFirst.next = first;
+        if (size == 0) {
+            last = newFirst;
+        } else {
+            first.previous = newFirst;
+        }
         first = newFirst;
         size++;
-        if (size == 1) {
-            last = first;
-        }
     }
 
     public void addLast(Item item) {
@@ -96,7 +98,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         public Item next() {
             if (current == null) {
-                throw new NoSuchElementException("No element to return");
+                throw new NoSuchElementException("No element to return.");
             }
             Item valueToReturn = current.value;
             current = current.next;
@@ -104,7 +106,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException("Opperation is not supported");
+            throw new UnsupportedOperationException("Operation is not supported.");
         }
     }
 
