@@ -110,7 +110,7 @@ public class Percolation {
 
     private void initiateQuickUnionUF(final int n) {
         unionUFPercolation = new WeightedQuickUnionUF(n * n + 2);
-        unionUFFullness = new WeightedQuickUnionUF(n * n + 2);
+        unionUFFullness = new WeightedQuickUnionUF(n * n + 1);
     }
 
     private void checkIndexes(final int i, final int j) {
