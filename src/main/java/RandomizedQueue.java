@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +14,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int size;
 
     public RandomizedQueue() {
-        queue = (Item[]) new Object[0];
+        queue = (Item[]) new Object[1];
     }
 
     public boolean isEmpty() {
@@ -27,7 +28,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         checkNewItem(item);
         if (size + 1 > queue.length) {
-            queue = (Item[]) new Object[size * 2];
+            queue = Arrays.copyOf(queue, size * 2);
         }
         queue[size] = item;
         size++;
@@ -40,14 +41,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[randomIndex] = queue[--size];
         queue[size] = null;
         if (size < queue.length / 3) {
-            queue = (Item[]) new Object[queue.length / 2];
+            queue = Arrays.copyOf(queue, queue.length / 2);
         }
         return itemToReturn;
     }
 
     private void checkNotEmpty() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty, cannot return any element");
+            throw new NoSuchElementException("Deque is empty, cannot return any element.");
         }
     }
 
@@ -82,13 +83,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         public Item next() {
             if (size == 0 || counter >= size) {
-                throw new NoSuchElementException("No element to return");
+                throw new NoSuchElementException("No element to return.");
             }
             return queue[indexes.get(counter++)];
         }
 
         public void remove() {
-
+            throw new UnsupportedOperationException("Operation is not supported.");
         }
     }
 
