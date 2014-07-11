@@ -54,6 +54,9 @@ public class Deque<Item> implements Iterable<Item> {
         checkNotEmpty();
         Item itemToRemove = first.value;
         first = first.next;
+        if (first != null) {
+            first.previous = null;
+        }
         size--;
         if (size <= 1) {
             last = first;
@@ -65,6 +68,9 @@ public class Deque<Item> implements Iterable<Item> {
         checkNotEmpty();
         Item itemToRemove = last.value;
         last = last.previous;
+        if (last != null) {
+            last.next = null;
+        }
         size--;
         if (size <= 1) {
             first = last;

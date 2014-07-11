@@ -61,6 +61,7 @@ public class DequeTest {
         Assert.assertEquals(0, deque.removeLast().intValue());
         Assert.assertEquals(2, deque.removeFirst().intValue());
         Assert.assertEquals(1, deque.removeLast().intValue());
+        Assert.assertTrue(deque.isEmpty());
     }
 
     @Test
@@ -85,6 +86,7 @@ public class DequeTest {
         Assert.assertEquals(0, deque.removeFirst().intValue());
         Assert.assertEquals(2, deque.removeLast().intValue());
         Assert.assertEquals(1, deque.removeFirst().intValue());
+        Assert.assertTrue(deque.isEmpty());
     }
 
     @Test
