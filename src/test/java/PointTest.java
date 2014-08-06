@@ -73,6 +73,6 @@ public class PointTest {
         Assert.assertEquals(0, comparator.compare(point2, point3));
         Point point4 = new Point(3, -1);
         Assert.assertEquals(1, comparator.compare(point2, point4));
-
+        Assert.assertEquals(-1, comparator.compare(point4, point2));
     }
 }
