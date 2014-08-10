@@ -3,43 +3,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
- * @author O. Tedikova
- * @version 1.0
+ * Created with IntelliJ IDEA.
+ * User: tedolga
+ * Date: 10.08.14
+ * Time: 21:13
+ * To change this template use File | Settings | File Templates.
  */
-public class Brute {
-    public static void main(String[] args) {
-
-    }
-
+public class Fast {
     protected static List<List<Point>> drawLines(Point[] points) {
         List<List<Point>> lines = new ArrayList<List<Point>>();
+        Point[] pointsCopy = Arrays.copyOf(points, points.length);
         for (int i = 0; i < points.length; i++) {
-            for (int j = i + 1; j < points.length; j++) {
-                for (int k = j + 1; k < points.length; k++) {
-                    for (int l = k + 1; l < points.length; l++) {
-                        Double slope1 = points[i].slopeTo(points[j]);
-                        Double slope2 = points[j].slopeTo(points[k]);
-                        Double slope3 = points[i].slopeTo(points[k]);
-                        Double slope4 = points[k].slopeTo(points[l]);
-                        if (slope1.equals(slope2) && slope2.equals(slope3) && slope3.equals(slope4)
-                                && !slope1.equals(Double.NEGATIVE_INFINITY)) {
-                            List<Point> linePoints = new ArrayList<Point>();
-                            linePoints.add(points[i]);
-                            linePoints.add(points[j]);
-                            linePoints.add(points[k]);
-                            linePoints.add(points[l]);
-                            Collections.sort(linePoints);
-                            System.out.println(printLinePoints(linePoints));
-                            linePoints.get(0).drawTo(linePoints.get(3));
-                            lines.add(linePoints);
-                        }
-                    }
-                }
+            List<Point> line=new ArrayList<Point>();
+            Point basicPoint = points[i];
+            Arrays.sort(pointsCopy, basicPoint.SLOPE_ORDER);
+            double slope1 = basicPoint.slopeTo(pointsCopy[0]);
+            for (int j = 1; j < pointsCopy.length; j++) {
+                double slope2 = basicPoint.slopeTo(pointsCopy[j]);
             }
         }
         return lines;
@@ -79,5 +64,20 @@ public class Brute {
             }
         }
         return stringBuilder.toString();
+    }
+
+    private class Line {
+        private Point point1;
+        private Point point2;
+
+        @Override
+        public boolean equals(Object o) {
+
+        }
+
+        @Override
+        public int hashCode() {
+
+        }
     }
 }

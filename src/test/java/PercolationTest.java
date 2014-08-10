@@ -135,20 +135,20 @@ public class PercolationTest {
     @Test
     public void testIsFullRandomly() throws IOException {
         for (int i = 0; i < 100; i++) {
-            testRandom("test1.txt");
+            testRandom("test1-percolation.txt");
         }
         for (int i = 0; i < 1000; i++) {
-            testRandom("test2.txt");
+            testRandom("test2-percolation.txt");
         }
         for (int i = 0; i < 100; i++) {
-            testRandom("test3.txt");
+            testRandom("test3-percolation.txt");
         }
     }
 
     @Test
     public void testError() throws IOException {
-        percolation = PercolationReader.read("test3.txt", true, -2687773032142323631l);
-        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix("test3.txt");
+        percolation = PercolationReader.read("test3-percolation.txt", true, -2687773032142323631l);
+        boolean[][] fullnessMatrix = PercolationReader.readFullnessMatrix("test3-percolation.txt");
         for (int i = 0; i < fullnessMatrix.length; i++) {
             for (int j = 0; j < fullnessMatrix.length; j++) {
                 Assert.assertEquals(String.format("Wrong at index [%d, %d], expected %s.", i, j, fullnessMatrix[i][j]), fullnessMatrix[i][j], percolation.isFull(i + 1, j + 1));
