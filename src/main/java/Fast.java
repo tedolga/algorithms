@@ -5,29 +5,38 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-/**
- * Created with IntelliJ IDEA.
- * User: tedolga
- * Date: 10.08.14
- * Time: 21:13
- * To change this template use File | Settings | File Templates.
- */
 public class Fast {
     protected static List<List<Point>> drawLines(Point[] points) {
-        List<List<Point>> lines = new ArrayList<List<Point>>();
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
-        for (int i = 0; i < points.length; i++) {
-            List<Point> line=new ArrayList<Point>();
-            Point basicPoint = points[i];
+        List<List<Point>> result = new ArrayList<List<Point>>();
+        Set<Line> lines = new HashSet<Line>();
+        for (Point basicPoint : points) {
+            List<Point> segment = new ArrayList<Point>();
             Arrays.sort(pointsCopy, basicPoint.SLOPE_ORDER);
-            double slope1 = basicPoint.slopeTo(pointsCopy[0]);
+            Double slope1 = basicPoint.slopeTo(pointsCopy[0]);
+            segment.add(basicPoint);
             for (int j = 1; j < pointsCopy.length; j++) {
-                double slope2 = basicPoint.slopeTo(pointsCopy[j]);
+                Double slope2 = basicPoint.slopeTo(pointsCopy[j]);
+                if (slope1.equals(slope2) && !slope1.equals(Double.NEGATIVE_INFINITY)) {
+                    segment.add(pointsCopy[j]);
+                }
+                slope1 = slope2;
+            }
+            if (segment.size() > 3) {
+                Collections.sort(segment);
+                Line line = new Line(segment.get(0), segment.get(segment.size() - 1), segment);
+                printLinePoints(segment);
+                lines.add(line);
             }
         }
-        return lines;
+        for (Line line : lines) {
+            result.add(line.allPoints);
+        }
+        return result;
     }
 
     protected static Point[] readPoints(String fileName) throws IOException {
@@ -66,18 +75,36 @@ public class Fast {
         return stringBuilder.toString();
     }
 
-    private class Line {
-        private Point point1;
-        private Point point2;
+    private static class Line {
+        private Point start;
+        private Point end;
+
+        private Line(Point start, Point end, List<Point> allPoints) {
+            this.start = start;
+            this.end = end;
+            this.allPoints = allPoints;
+        }
+
+        private List<Point> allPoints;
 
         @Override
         public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Line)) return false;
 
+            Line line = (Line) o;
+
+            if (!start.equals(line.start)) return false;
+            if (!end.equals(line.end)) return false;
+
+            return true;
         }
 
         @Override
         public int hashCode() {
-
+            int result = start.hashCode();
+            result = 31 * result + end.hashCode();
+            return result;
         }
     }
 }
