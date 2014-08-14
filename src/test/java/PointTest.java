@@ -52,7 +52,7 @@ public class PointTest {
         Assert.assertTrue(point7.compareTo(point8) < 0);
         Point point9 = new Point(1, 1);
         Point point10 = new Point(0, 1);
-        Assert.assertTrue(point9.compareTo(point10) == 0);
+        Assert.assertTrue(point9.compareTo(point10) > 0);
         Point point11 = new Point(0, 2);
         Point point12 = new Point(1, 1);
         Assert.assertTrue(point11.compareTo(point12) > 0);

@@ -12,8 +12,14 @@ import java.util.Random;
  * @version 1.0
  */
 public class Brute {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        Point[] points = Brute.readPoints(args[0]);
+        for (Point point : points) {
+            point.draw();
+        }
+        drawLines(points);
     }
 
     protected static List<List<Point>> drawLines(Point[] points) {

@@ -16,27 +16,41 @@ public class Fast {
         Set<Line> lines = new HashSet<Line>();
         for (Point basicPoint : points) {
             List<Point> segment = new ArrayList<Point>();
-            Arrays.sort(pointsCopy, basicPoint.SLOPE_ORDER);
-            Double slope1 = basicPoint.slopeTo(pointsCopy[0]);
             segment.add(basicPoint);
-            for (int j = 1; j < pointsCopy.length; j++) {
-                Double slope2 = basicPoint.slopeTo(pointsCopy[j]);
-                if (slope1.equals(slope2) && !slope1.equals(Double.NEGATIVE_INFINITY)) {
-                    segment.add(pointsCopy[j]);
+            Arrays.sort(pointsCopy, basicPoint.SLOPE_ORDER);
+            Double slope1 = basicPoint.slopeTo(pointsCopy[1]);
+            for (int i = 2; i < pointsCopy.length; i++) {
+                Double slope2 = basicPoint.slopeTo(pointsCopy[i]);
+                segment.add(pointsCopy[i - 1]);
+                if (!slope1.equals(slope2) || slope1.equals(Double.NEGATIVE_INFINITY) || points[i - 1].equals(points[i])) {
+                    if (segment.size() > 3) {
+                        lines.add(createLine(segment));
+                    }
+                    segment = new ArrayList<Point>();
+                    segment.add(basicPoint);
+
+                }
+                if (i == pointsCopy.length - 1) {
+                    segment.add(pointsCopy[i]);
+                    if (segment.size() > 3) {
+                        lines.add(createLine(segment));
+                    }
                 }
                 slope1 = slope2;
             }
-            if (segment.size() > 3) {
-                Collections.sort(segment);
-                Line line = new Line(segment.get(0), segment.get(segment.size() - 1), segment);
-                printLinePoints(segment);
-                lines.add(line);
-            }
+
         }
         for (Line line : lines) {
-            result.add(line.allPoints);
+            List<Point> pointList = line.allPoints;
+            result.add(pointList);
+            pointList.get(0).drawTo(pointList.get(pointList.size() - 1));
         }
         return result;
+    }
+
+    private static Line createLine(List<Point> segment) {
+        Collections.sort(segment);
+        return new Line(segment.get(0), segment.get(segment.size() - 1), segment);
     }
 
     protected static Point[] readPoints(String fileName) throws IOException {
@@ -94,10 +108,8 @@ public class Fast {
 
             Line line = (Line) o;
 
-            if (!start.equals(line.start)) return false;
-            if (!end.equals(line.end)) return false;
+            return start.equals(line.start) && end.equals(line.end);
 
-            return true;
         }
 
         @Override

@@ -31,12 +31,12 @@ public class FastTest {
         Assert.assertEquals(1, lines.size());
         points = Fast.readPoints("test6-brute-lines.txt");
         lines = Fast.drawLines(points);
-        Assert.assertEquals(5, lines.size());
+        Assert.assertEquals(1, lines.size());
         points = Fast.readPoints("test7-brute-lines.txt");
         lines = Fast.drawLines(points);
         Assert.assertEquals(2, lines.size());
         points = Fast.readPoints("test8-brute-lines.txt");
         lines = Fast.drawLines(points);
-        Assert.assertEquals(6, lines.size());
+        Assert.assertEquals(2, lines.size());
     }
 }
