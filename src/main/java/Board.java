@@ -2,11 +2,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * @author O. Tedikova
  * @version 1.0
  */
 public class Board {
+    private static final int MAX_DIGITS_NUMBER = 6;
     private int[] blocksFlatArray;
     private int[][] blocks;
     private int dimension;
@@ -106,7 +109,25 @@ public class Board {
     }
 
     public String toString() {
-    }// string representation of the board (in the output format specified below)
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(dimension).append("\n");
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                stringBuilder.append(generateValueWithZeros(blocks[i][j]));
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private String generateValueWithZeros(int blockValue) {
+        String stringBlockValue = String.valueOf(blockValue);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(stringBlockValue);
+        for (int i = 0; i < MAX_DIGITS_NUMBER - stringBlockValue.length();i++ ){
+            stringBuilder.append(" ");
+        }
+            return stringBuilder.toString();
+    }
 
     private Board getTwinBoard(int row1, int column1, int row2, int column2) {
         Board twin = new Board(blocks);
@@ -116,4 +137,4 @@ public class Board {
         return twin;
     }
 }
-}
+
