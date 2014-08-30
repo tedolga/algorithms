@@ -10,10 +10,23 @@ import java.util.List;
 import java.util.Set;
 
 public class Fast {
-    protected static List<List<Point>> drawLines(Point[] points) {
+    public static void main(String[] args) throws IOException {
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        Point[] points = Fast.readPoints(args[0]);
+        for (Point point : points) {
+            point.draw();
+        }
+        drawLines(points);
+    }
+
+    private static List<List<Point>> drawLines(Point[] points) {
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
         List<List<Point>> result = new ArrayList<List<Point>>();
         Set<Line> lines = new HashSet<Line>();
+        if (points.length < 4) {
+            return result;
+        }
         for (Point basicPoint : points) {
             List<Point> segment = new ArrayList<Point>();
             segment.add(basicPoint);
@@ -22,7 +35,7 @@ public class Fast {
             for (int i = 2; i < pointsCopy.length; i++) {
                 Double slope2 = basicPoint.slopeTo(pointsCopy[i]);
                 segment.add(pointsCopy[i - 1]);
-                if (!slope1.equals(slope2) || slope1.equals(Double.NEGATIVE_INFINITY) || points[i - 1].equals(points[i])) {
+                if (!slope1.equals(slope2) || slope1.equals(Double.NEGATIVE_INFINITY) || points[i - 1].compareTo(points[i]) == 0) {
                     if (segment.size() > 3) {
                         lines.add(createLine(segment));
                     }
@@ -43,6 +56,7 @@ public class Fast {
         for (Line line : lines) {
             List<Point> pointList = line.allPoints;
             result.add(pointList);
+            System.out.println(printLinePoints(pointList));
             pointList.get(0).drawTo(pointList.get(pointList.size() - 1));
         }
         return result;
@@ -53,20 +67,23 @@ public class Fast {
         return new Line(segment.get(0), segment.get(segment.size() - 1), segment);
     }
 
-    protected static Point[] readPoints(String fileName) throws IOException {
+    private static Point[] readPoints(String fileName) throws IOException {
         InputStream data = Brute.class.getResourceAsStream(fileName);
         BufferedReader in = null;
         Point[] points;
         try {
             in = new BufferedReader(new InputStreamReader(data));
-            int pointsCount = Integer.valueOf(in.readLine());
+            int pointsCount = Integer.valueOf(in.readLine().trim());
             points = new Point[pointsCount];
             int rowCounter = 0;
             while (rowCounter < pointsCount) {
-                String[] coordinatesStrings = in.readLine().split(" +");
-                Point point = new Point(Integer.valueOf(coordinatesStrings[0]), Integer.valueOf(coordinatesStrings[1]));
-                points[rowCounter] = point;
-                rowCounter++;
+                String line = in.readLine().trim();
+                if (line.length() > 0) {
+                    String[] coordinatesStrings = line.split(" +");
+                    Point point = new Point(Integer.valueOf(coordinatesStrings[0]), Integer.valueOf(coordinatesStrings[1]));
+                    points[rowCounter] = point;
+                    rowCounter++;
+                }
             }
         } finally {
             if (in != null) {
@@ -108,7 +125,7 @@ public class Fast {
 
             Line line = (Line) o;
 
-            return start.equals(line.start) && end.equals(line.end);
+            return start.compareTo(line.start) == 0 && end.compareTo(line.end) == 0;
 
         }
 

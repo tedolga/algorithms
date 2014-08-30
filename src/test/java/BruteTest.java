@@ -3,13 +3,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: tedolga
- * Date: 09.08.14
- * Time: 20:12
- * To change this template use File | Settings | File Templates.
- */
 public class BruteTest {
     @Test
     public void testDrawLines() throws Exception {
@@ -37,5 +30,9 @@ public class BruteTest {
         points = Brute.readPoints("test8-brute-lines.txt");
         lines = Brute.drawLines(points);
         Assert.assertEquals(6, lines.size());
+
+        points = Brute.readPoints("test9-brute-lines.txt");
+        lines = Brute.drawLines(points);
+        Assert.assertEquals(0, lines.size());
     }
 }

@@ -38,5 +38,9 @@ public class FastTest {
         points = Fast.readPoints("test8-brute-lines.txt");
         lines = Fast.drawLines(points);
         Assert.assertEquals(2, lines.size());
+
+        points = Fast.readPoints("test9-brute-lines.txt");
+        lines = Fast.drawLines(points);
+        Assert.assertEquals(0, lines.size());
     }
 }
