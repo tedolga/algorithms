@@ -20,7 +20,7 @@ public class Fast {
         drawLines(points);
     }
 
-    private static List<List<Point>> drawLines(Point[] points) {
+    public static List<List<Point>> drawLines(Point[] points) {
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
         List<List<Point>> result = new ArrayList<List<Point>>();
         Set<Line> lines = new HashSet<Line>();
@@ -67,7 +67,7 @@ public class Fast {
         return new Line(segment.get(0), segment.get(segment.size() - 1), segment);
     }
 
-    private static Point[] readPoints(String fileName) throws IOException {
+    public static Point[] readPoints(String fileName) throws IOException {
         InputStream data = Brute.class.getResourceAsStream(fileName);
         BufferedReader in = null;
         Point[] points;

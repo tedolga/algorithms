@@ -22,7 +22,7 @@ public class Brute {
         drawLines(points);
     }
 
-    private static List<List<Point>> drawLines(Point[] points) {
+    public static List<List<Point>> drawLines(Point[] points) {
         List<List<Point>> lines = new ArrayList<List<Point>>();
         for (int i = 0; i < points.length; i++) {
             for (int j = i + 1; j < points.length; j++) {
@@ -51,7 +51,7 @@ public class Brute {
         return lines;
     }
 
-    private static Point[] readPoints(String fileName) throws IOException {
+    public static Point[] readPoints(String fileName) throws IOException {
         InputStream data = Brute.class.getResourceAsStream(fileName);
         BufferedReader in = null;
         Point[] points;
