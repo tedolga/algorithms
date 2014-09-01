@@ -100,7 +100,7 @@ public class Board {
         if (zeroColumn != 0) {
             neighbors.add(getTwinBoard(zeroRow, zeroColumn, zeroRow, zeroColumn - 1));
         }
-        if (zeroColumn != dimension) {
+        if (zeroColumn != dimension-1) {
             neighbors.add(getTwinBoard(zeroRow, zeroColumn, zeroRow, zeroColumn + 1));
         }
         return neighbors;
@@ -136,6 +136,13 @@ public class Board {
         int temp2 = twin.blocksFlatArray[row1 * dimension + column1];
         twin.blocksFlatArray[row1 * dimension + column1] = twin.blocksFlatArray[row2 * dimension + column2];
         twin.blocksFlatArray[row2 * dimension + column2] = temp2;
+        if (twin.blocks[row1][column1] == 0) {
+            twin.zeroRow = row1;
+            twin.zeroColumn = column1;
+        } else if (twin.blocks[row2][column2] == 0) {
+            twin.zeroRow = row2;
+            twin.zeroColumn = column2;
+        }
         return twin;
     }
 }

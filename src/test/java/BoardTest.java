@@ -1,4 +1,5 @@
 import junit.framework.Assert;
+
 import org.junit.Test;
 
 public class BoardTest {
@@ -75,9 +76,19 @@ public class BoardTest {
             if (boardNeighbor.isGoal()) {
                 thereIsGoal = true;
             }
-            Assert.assertTrue(thereIsGoal);
-            Assert.assertEquals(2, count);
         }
+        Assert.assertTrue(thereIsGoal);
+        Assert.assertEquals(2, count);
+
+        board = BoardReader.readBoard("test-board-3.txt");
+        neighbors = board.neighbors();
+        count = 0;
+        thereIsGoal = false;
+        for (Board boardNeighbor : neighbors) {
+            Assert.assertFalse(boardNeighbor.equals(board));
+            count++;
+        }
+        Assert.assertEquals(4, count);
     }
 
 }
