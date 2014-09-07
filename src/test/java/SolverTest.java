@@ -16,6 +16,9 @@ public class SolverTest {
         board = BoardReader.readBoard("test-board-3.txt");
         solver = new Solver(board);
         Assert.assertTrue(solver.isSolvable());
+        for (Board board1 : solver.solution()) {
+            board1.toString();
+        }
     }
 
     @Test

@@ -31,4 +31,12 @@ public class BoardReader {
         return new Board(blocks);
     }
 
+    public static void main(String[] args) throws IOException {
+        Board board = BoardReader.readBoard("test-board-3.txt");
+        Solver solver = new Solver(board);
+        for (Board board1 : solver.solution()) {
+            System.out.println(board1.toString());
+        }
+    }
+
 }
