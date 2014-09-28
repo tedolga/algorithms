@@ -26,7 +26,7 @@ public class BoardTest {
         Board board = BoardReader.readBoard("test-board-1.txt");
         Assert.assertEquals(4, board.manhattan());
         board = BoardReader.readBoard("test-board-3.txt");
-        Assert.assertEquals(28, board.manhattan());
+        Assert.assertEquals(15, board.manhattan());
         board = BoardReader.readBoard("test-board-0.txt");
         Assert.assertEquals(0, board.manhattan());
     }
@@ -53,15 +53,21 @@ public class BoardTest {
         twinBoard = board.twin();
         Assert.assertFalse(board.equals(twinBoard));
 
+        board = BoardReader.readBoard("test-board-4.txt");
+        twinBoard = board.twin();
+        Assert.assertFalse(board.equals(twinBoard));
+
     }
 
     @Test
     public void testEquals() throws Exception {
-        Board board1 = BoardReader.readBoard("test-board-1.txt");
-        Board board2 = BoardReader.readBoard("test-board-1.txt");
-        Assert.assertEquals(board1, board2);
-        board2 = board2.twin();
-        Assert.assertFalse(board1.equals(board2));
+        for (int i = 0; i < 100; i++) {
+            Board board1 = BoardReader.readBoard("test-board-1.txt");
+            Board board2 = BoardReader.readBoard("test-board-1.txt");
+            Assert.assertEquals(board1, board2);
+            board2 = board2.twin();
+            Assert.assertFalse(board1.equals(board2));
+        }
     }
 
     @Test
