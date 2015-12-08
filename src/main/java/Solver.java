@@ -35,6 +35,8 @@ public class Solver {
             }
             if (minPQ.isEmpty()) {
                 isSolvable = false;
+                moves = -1;
+                solution = null;
                 return;
             }
             if (insertedNeighbours == 0) {

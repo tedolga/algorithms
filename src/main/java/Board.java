@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 /**
  * @author O. Tedikova
  * @version 1.0
@@ -67,7 +65,7 @@ public class Board {
     public Board twin() {
         int row = StdRandom.uniform(dimension);
         if (row == zeroRow) {
-            row = row == dimension - 1 ? row - 1 : dimension + 1;
+            row = row == dimension - 1 ? row - 1 : row + 1;
         }
         int column1 = StdRandom.uniform(dimension);
         int column2 = column1 == dimension - 1 ? column1 - 1 : column1 + 1;
